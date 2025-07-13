@@ -1,11 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Kamrul Hasan Video Downloader</title>
+    <meta charset="UTF-8">
+    <title>Kamrul Hasan Video Downloader</title>
+    <style>
+        body { font-family: sans-serif; background-color: #1b1b1b; color: white; text-align: center; padding: 50px; }
+        input, button { padding: 10px; margin: 10px; border-radius: 8px; font-size: 16px; }
+        .logo { font-size: 28px; font-weight: bold; margin-bottom: 20px; color: #00f5d4; }
+    </style>
 </head>
 <body>
-  <h1>Welcome Kamrul!</h1>
-  <p>This is your Telegram bot's video downloader UI.</p>
+    <div class="logo">Kamrul Hasan</div>
+    <input type="text" id="url" placeholder="Paste video URL here">
+    <input type="text" id="user_id" placeholder="Enter your Telegram User ID">
+    <button onclick="sendUrl()">Download</button>
+    <p id="status"></p>
+
+    <script>
+        async function sendUrl() {
+            const url = document.getElementById('url').value;
+            const user_id = document.getElementById('user_id').value;
+            const res = await fetch('/download', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ url: url, user_id: user_id })
+            });
+            const data = await res.json();
+            document.getElementById('status').innerText = data.message || data.status;
+        }
+    </script>
 </body>
 </html>
